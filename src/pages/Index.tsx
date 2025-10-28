@@ -1,12 +1,150 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import FileUpload from "@/components/FileUpload";
+import ComparisonTable from "@/components/ComparisonTable";
+import { Upload, Zap } from "lucide-react";
+
+export interface MachineData {
+  manufacturer: string;
+  modelSeries: string;
+  modelName: string;
+  productType: string;
+  clampingForce: string;
+  screwType: string;
+  screwDiameter: string;
+  tieBarDistance: string;
+  screwStroke: string;
+  shotSize: string;
+  optionPrice: string;
+  freight: string;
+  listPrice: string;
+  salesPrice: string;
+  customer: string;
+  checkedTime: string;
+  salesType: string;
+}
+
+export interface ComparisonResult {
+  hydraulic: any[];
+  electric: any[];
+}
 
 const Index = () => {
+  const [comparisonData, setComparisonData] = useState<ComparisonResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-secondary/30 to-background">
+      {/* Header */}
+      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80">
+              <Zap className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">
+                Machine Price Comparison
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Intelligent competitor analysis for injection molding machines
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8">
+        {!comparisonData ? (
+          <div className="max-w-3xl mx-auto">
+            <Card className="p-8 shadow-medium">
+              <div className="text-center mb-6">
+                <div className="inline-flex p-4 rounded-full bg-primary/10 mb-4">
+                  <Upload className="h-8 w-8 text-primary" />
+                </div>
+                <h2 className="text-2xl font-bold mb-2">Upload Your Data</h2>
+                <p className="text-muted-foreground">
+                  Upload your Excel file with machine specifications and pricing data.
+                  Our AI will automatically analyze and compare similar models across manufacturers.
+                </p>
+              </div>
+
+              <FileUpload
+                onDataProcessed={setComparisonData}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
+
+              <div className="mt-8 pt-6 border-t">
+                <h3 className="font-semibold mb-3">Key Features:</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold">•</span>
+                    <span>Automatic grouping by Product Type (Hydraulic/Electric)</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold">•</span>
+                    <span>Smart matching based on Clamping Force, Shot Size, and Screw Type</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold">•</span>
+                    <span>Side-by-side manufacturer comparison</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-accent font-bold">•</span>
+                    <span>Shows all similar models with pricing and specifications</span>
+                  </li>
+                </ul>
+              </div>
+            </Card>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <Card className="p-6 shadow-medium">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold">Comparison Results</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Similar models grouped by manufacturer for easy price comparison
+                  </p>
+                </div>
+                <button
+                  onClick={() => setComparisonData(null)}
+                  className="px-4 py-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  Upload New File
+                </button>
+              </div>
+
+              <Tabs defaultValue="hydraulic" className="w-full">
+                <TabsList className="grid w-full max-w-md grid-cols-2">
+                  <TabsTrigger value="hydraulic">
+                    Hydraulic Machines
+                  </TabsTrigger>
+                  <TabsTrigger value="electric">
+                    Electric Machines
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="hydraulic" className="mt-6">
+                  <ComparisonTable
+                    data={comparisonData.hydraulic}
+                    productType="Hydraulic"
+                  />
+                </TabsContent>
+
+                <TabsContent value="electric" className="mt-6">
+                  <ComparisonTable
+                    data={comparisonData.electric}
+                    productType="Electric"
+                  />
+                </TabsContent>
+              </Tabs>
+            </Card>
+          </div>
+        )}
+      </main>
     </div>
   );
 };
