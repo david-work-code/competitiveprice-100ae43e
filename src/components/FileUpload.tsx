@@ -4,8 +4,8 @@ import { Upload, FileSpreadsheet, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import * as XLSX from "xlsx";
-import { supabase } from "@/integrations/supabase/client";
 import type { ComparisonResult, MachineData } from "@/pages/Index";
+import { compareMachines } from "@/lib/machineComparison";
 
 interface FileUploadProps {
   onDataProcessed: (data: ComparisonResult) => void;
@@ -53,16 +53,8 @@ const FileUpload = ({ onDataProcessed, isLoading, setIsLoading }: FileUploadProp
         salesType: row["Sales Type"] || "",
       }));
 
-      // Send to backend for AI processing
-      const { data: comparisonResult, error } = await supabase.functions.invoke(
-        "compare-machines",
-        {
-          body: { machines },
-        }
-      );
-
-      if (error) throw error;
-
+      // Process comparison logic
+      const comparisonResult = compareMachines(machines);
       onDataProcessed(comparisonResult);
       
       toast({
