@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
 import ComparisonTable from "@/components/ComparisonTable";
-import { Upload, Zap } from "lucide-react";
+import { Upload, Zap, Share2, Copy } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export interface MachineData {
   manufacturer: string;
@@ -34,6 +37,54 @@ export interface ComparisonResult {
 const Index = () => {
   const [comparisonData, setComparisonData] = useState<ComparisonResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [shareId, setShareId] = useState<string | null>(null);
+
+  const handleFileProcessed = async (data: ComparisonResult) => {
+    setComparisonData(data);
+    
+    // Automatically generate share link
+    await saveAndGenerateShareLink(data);
+  };
+
+  const saveAndGenerateShareLink = async (data: ComparisonResult) => {
+    try {
+      // Generate a unique share ID
+      const newShareId = crypto.randomUUID();
+      
+      // Save to database
+      const { error } = await supabase
+        .from("comparison_results")
+        .insert({
+          share_id: newShareId,
+          data: data as any,
+        } as any);
+
+      if (error) {
+        console.error("Error saving comparison results:", error);
+        toast.error("Failed to generate share link");
+        return;
+      }
+
+      setShareId(newShareId);
+      toast.success("Share link generated!");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to generate share link");
+    }
+  };
+
+  const copyShareLink = () => {
+    if (!shareId) return;
+    
+    const shareUrl = `${window.location.origin}/share/${shareId}`;
+    navigator.clipboard.writeText(shareUrl);
+    toast.success("Share link copied to clipboard!");
+  };
+
+  const handleUploadNew = () => {
+    setComparisonData(null);
+    setShareId(null);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-secondary/30 to-background">
@@ -72,7 +123,7 @@ const Index = () => {
               </div>
 
               <FileUpload
-                onDataProcessed={setComparisonData}
+                onDataProcessed={handleFileProcessed}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
               />
@@ -102,6 +153,31 @@ const Index = () => {
           </div>
         ) : (
           <div className="space-y-6">
+            {shareId && (
+              <Card className="p-4 shadow-medium bg-primary/5 border-primary/20">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold text-foreground mb-1 flex items-center gap-2">
+                      <Share2 className="h-4 w-4" />
+                      Share this comparison
+                    </p>
+                    <code className="text-xs text-muted-foreground break-all block bg-background/50 p-2 rounded">
+                      {window.location.origin}/share/{shareId}
+                    </code>
+                  </div>
+                  <Button
+                    onClick={copyShareLink}
+                    size="sm"
+                    variant="outline"
+                    className="flex items-center gap-2 shrink-0"
+                  >
+                    <Copy className="h-4 w-4" />
+                    Copy Link
+                  </Button>
+                </div>
+              </Card>
+            )}
+            
             <Card className="p-6 shadow-medium">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -110,12 +186,13 @@ const Index = () => {
                     Similar models grouped by manufacturer for easy price comparison
                   </p>
                 </div>
-                <button
-                  onClick={() => setComparisonData(null)}
-                  className="px-4 py-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                <Button
+                  onClick={handleUploadNew}
+                  variant="outline"
+                  size="sm"
                 >
                   Upload New File
-                </button>
+                </Button>
               </div>
 
               <Tabs defaultValue="hydraulic" className="w-full">
