@@ -211,6 +211,12 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 {formatCurrency(model.salesPrice)}
                               </div>
                               <div className="text-xs text-muted-foreground">
+                                Option Price: {formatCurrency(model.optionPrice)}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                Freight: {formatCurrency(model.freight)}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
                                 Checked: {model.checkedTime}
                               </div>
                             </div>
