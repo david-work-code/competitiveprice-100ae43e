@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Table,
@@ -8,13 +9,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { formatCurrency } from "@/lib/utils";
 
 interface ComparisonTableProps {
   data: any[];
   productType: string;
 }
 
+const getTonnageCategory = (clampingForce: number): string => {
+  if (clampingForce < 400) return "Small (<400 Tons)";
+  if (clampingForce <= 1100) return "Medium (400~1100 Tons)";
+  return "Large (>1100 Tons)";
+};
+
 const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
+  const [selectedClampingForce, setSelectedClampingForce] = useState<string>("all");
+  const [selectedTonnageCategory, setSelectedTonnageCategory] = useState<string>("all");
+
   if (!data || data.length === 0) {
     return (
       <Card className="p-8 text-center">
@@ -24,6 +42,43 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
       </Card>
     );
   }
+
+  // Extract unique clamping forces and tonnage categories
+  const clampingForces = useMemo(() => {
+    const forces = Array.from(
+      new Set(
+        data.map((group) => group.referenceSpecs?.clampingForce).filter(Boolean)
+      )
+    ).sort((a, b) => a - b);
+    return forces;
+  }, [data]);
+
+  const tonnageCategories = useMemo(() => {
+    return ["Small (<400 Tons)", "Medium (400~1100 Tons)", "Large (>1100 Tons)"];
+  }, []);
+
+  // Filter data based on selected filters
+  const filteredData = useMemo(() => {
+    return data.filter((group) => {
+      const clampingForce = group.referenceSpecs?.clampingForce;
+      if (!clampingForce) return false;
+
+      // Filter by clamping force
+      if (selectedClampingForce !== "all" && clampingForce.toString() !== selectedClampingForce) {
+        return false;
+      }
+
+      // Filter by tonnage category
+      if (selectedTonnageCategory !== "all") {
+        const category = getTonnageCategory(clampingForce);
+        if (category !== selectedTonnageCategory) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [data, selectedClampingForce, selectedTonnageCategory]);
 
   // Extract unique manufacturers for column headers
   const manufacturers = Array.from(
@@ -36,6 +91,41 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
 
   return (
     <div className="space-y-4">
+      <div className="flex gap-4 flex-wrap">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">Clamping Force</label>
+          <Select value={selectedClampingForce} onValueChange={setSelectedClampingForce}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="All clamping forces" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Clamping Forces</SelectItem>
+              {clampingForces.map((force) => (
+                <SelectItem key={force} value={force.toString()}>
+                  {force} US Ton
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">Tonnage Category</label>
+          <Select value={selectedTonnageCategory} onValueChange={setSelectedTonnageCategory}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="All categories" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              {tonnageCategories.map((category) => (
+                <SelectItem key={category} value={category}>
+                  {category}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -49,7 +139,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((group, groupIndex) => {
+            {filteredData.map((group, groupIndex) => {
               const referenceSpecs = group.referenceSpecs;
               const maxModels = Math.max(
                 ...manufacturers.map(
@@ -118,7 +208,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 </Badge>
                               </div>
                               <div className="pt-2 text-lg font-bold text-primary">
-                                {model.salesPrice}
+                                {formatCurrency(model.salesPrice)}
                               </div>
                               <div className="text-xs text-muted-foreground">
                                 Checked: {model.checkedTime}
