@@ -23,6 +23,7 @@ export interface MachineData {
   customer: string;
   checkedTime: string;
   salesType: string;
+  performance?: string;
 }
 
 export interface ComparisonResult {

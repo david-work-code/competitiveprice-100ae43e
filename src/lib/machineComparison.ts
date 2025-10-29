@@ -14,6 +14,7 @@ type ReferenceSpecs = {
   clampingForce: number | string;
   shotSize: number | string;
   screwType: string;
+  performance?: string;
 };
 
 type TableGroup = {
@@ -47,11 +48,15 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
     const clampingForceNum = toNumber(machine.clampingForce);
     const shotSizeNum = toNumber(machine.shotSize);
     const screwTypeNorm = (machine.screwType || "").toLowerCase().trim();
+    
+    // Normalize performance for grouping
+    const performanceValue = (machine.performance || "").toLowerCase().trim();
+    const performanceGroup = performanceValue === "high" ? "high" : "standard";
 
     const forceRange = Math.round(clampingForceNum / 50) * 50; // nearest 50
     const shotRange = Math.round(shotSizeNum / 10) * 10; // nearest 10
 
-    const key = `${forceRange}-${screwTypeNorm}-${shotRange}`;
+    const key = `${forceRange}-${screwTypeNorm}-${shotRange}-${performanceGroup}`;
 
     if (!map.has(key)) {
       map.set(key, {
@@ -60,6 +65,7 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
           clampingForce: forceRange,
           shotSize: shotRange,
           screwType: machine.screwType || "",
+          performance: performanceGroup === "high" ? "High" : undefined,
         },
       });
     }
@@ -75,6 +81,17 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
   const result: TableGroup[] = [];
   map.forEach(({ manufacturers, ref }) => {
     result.push({ referenceSpecs: ref, ...manufacturers });
+  });
+
+  // Sort by clamping force (ascending), then by shot size (ascending)
+  result.sort((a, b) => {
+    const forceA = toNumber(a.referenceSpecs.clampingForce);
+    const forceB = toNumber(b.referenceSpecs.clampingForce);
+    if (forceA !== forceB) return forceA - forceB;
+    
+    const shotA = toNumber(a.referenceSpecs.shotSize);
+    const shotB = toNumber(b.referenceSpecs.shotSize);
+    return shotA - shotB;
   });
 
   return result;
