@@ -32,6 +32,25 @@ function toNumber(value: unknown): number {
   return 0;
 }
 
+function parseShotSize(shotSize: string, performance?: string): number {
+  // For Multi performance, take the value before '/'
+  if (performance && performance.toLowerCase().includes("multi") && shotSize.includes("/")) {
+    const beforeSlash = shotSize.split("/")[0];
+    return toNumber(beforeSlash);
+  }
+  return toNumber(shotSize);
+}
+
+function parseCheckedDate(checked: string): Date {
+  // Parse MM.YYYY format
+  if (!checked || typeof checked !== "string") return new Date(0);
+  const parts = checked.split(".");
+  if (parts.length !== 2) return new Date(0);
+  const month = parseInt(parts[0]) - 1; // JS months are 0-indexed
+  const year = parseInt(parts[1]);
+  return new Date(year, month);
+}
+
 function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[] {
   if (!machines || machines.length === 0) return [];
 
@@ -46,12 +65,14 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
 
   machines.forEach((machine) => {
     const clampingForceNum = toNumber(machine.clampingForce);
-    const shotSizeNum = toNumber(machine.shotSize);
+    const performanceValue = (machine.performance || "").toLowerCase().trim();
+    const shotSizeNum = parseShotSize(machine.shotSize, performanceValue);
     const screwTypeNorm = (machine.screwType || "").toLowerCase().trim();
     
-    // Normalize performance for grouping
-    const performanceValue = (machine.performance || "").toLowerCase().trim();
-    const performanceGroup = performanceValue === "high" ? "high" : "standard";
+    // Normalize performance for grouping - keep Multi separate
+    let performanceGroup = "standard";
+    if (performanceValue === "high") performanceGroup = "high";
+    else if (performanceValue.includes("multi")) performanceGroup = "multi";
 
     const forceRange = Math.round(clampingForceNum / 50) * 50; // nearest 50
     const shotRange = Math.round(shotSizeNum / 10) * 10; // nearest 10
@@ -65,7 +86,7 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
           clampingForce: forceRange,
           shotSize: shotRange,
           screwType: machine.screwType || "",
-          performance: performanceGroup === "high" ? "High" : undefined,
+          performance: performanceGroup === "high" ? "High" : performanceGroup === "multi" ? "Multi" : undefined,
         },
       });
     }
@@ -74,6 +95,18 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
     const mfg = machine.manufacturer || "Unknown";
     if (!group.manufacturers[mfg]) group.manufacturers[mfg] = [];
     group.manufacturers[mfg].push(machine);
+  });
+
+  // Filter to keep only the latest checked entry per manufacturer in each group
+  map.forEach((group) => {
+    Object.keys(group.manufacturers).forEach((mfg) => {
+      const machines = group.manufacturers[mfg];
+      if (machines.length > 1) {
+        // Sort by checked date descending and keep only the latest
+        machines.sort((a, b) => parseCheckedDate(b.checkedTime).getTime() - parseCheckedDate(a.checkedTime).getTime());
+        group.manufacturers[mfg] = [machines[0]];
+      }
+    });
   });
 
   // Convert to the structure expected by ComparisonTable:
