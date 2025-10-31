@@ -80,14 +80,18 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
     });
   }, [data, selectedClampingForce, selectedTonnageCategory]);
 
-  // Extract unique manufacturers for column headers
+  // Extract unique manufacturers for column headers, with LS first
   const manufacturers = Array.from(
     new Set(
       data.flatMap((group) =>
         Object.keys(group).filter((key) => key !== "referenceSpecs")
       )
     )
-  );
+  ).sort((a, b) => {
+    if (a === "LS") return -1;
+    if (b === "LS") return 1;
+    return a.localeCompare(b);
+  });
 
   return (
     <div className="space-y-4">
@@ -128,9 +132,9 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
       </div>
       <div className="overflow-x-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 z-10">
             <TableRow className="bg-muted/50">
-              <TableHead className="font-bold text-base">Machine Specifications (Reference)</TableHead>
+              <TableHead className="font-bold text-base sticky left-0 z-20 bg-muted/50">Machine Specifications (Reference)</TableHead>
               {manufacturers.map((manufacturer) => (
                 <TableHead key={manufacturer} className="font-bold text-base min-w-[250px]">
                   {manufacturer}
@@ -152,7 +156,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                   {rowIndex === 0 && (
                     <TableCell
                       rowSpan={maxModels}
-                      className="align-top border-r font-medium bg-muted/20"
+                      className="align-top border-r font-medium bg-muted/20 sticky left-0 z-10"
                     >
                       <div className="space-y-3 py-2">
                         <div className="text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
@@ -164,7 +168,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                         </div>
                         <div>
                           <span className="text-xs text-muted-foreground">Shot Size:</span>
-                          <p className="font-semibold">{referenceSpecs.shotSize}</p>
+                          <p className="font-semibold">{referenceSpecs.shotSize} Oz.</p>
                         </div>
                         <div>
                           <span className="text-xs text-muted-foreground">Screw Type:</span>
@@ -197,7 +201,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Shot Size:</span>{" "}
-                                  <span className="font-medium">{model.shotSize}</span>
+                                  <span className="font-medium">{model.shotSize} Oz.</span>
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Screw Type:</span>{" "}
@@ -205,7 +209,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Tie-bar Distance:</span>{" "}
-                                  <span className="font-medium">{model.tieBarDistance || <span className="text-muted-foreground/50">—</span>}</span>
+                                  <span className="font-medium">{model.tieBarDistance ? `${model.tieBarDistance} Inch` : <span className="text-muted-foreground/50">—</span>}</span>
                                 </div>
                               </div>
                             </div>
