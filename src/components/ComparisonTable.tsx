@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/lib/utils";
 
 interface ComparisonTableProps {
@@ -130,11 +131,12 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
           </Select>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <Table>
-          <TableHeader className="sticky top-0 z-10">
-            <TableRow className="bg-muted/50">
-              <TableHead className="font-bold text-base sticky left-0 z-20 bg-muted/50">Machine Specifications (Reference)</TableHead>
+      <ScrollArea className="h-[600px] w-full border rounded-md">
+        <div className="relative">
+          <Table>
+            <TableHeader className="sticky top-0 z-10 bg-background">
+              <TableRow className="bg-muted/50">
+                <TableHead className="font-bold text-base sticky left-0 z-20 bg-muted/50 border-r">Machine Specifications (Reference)</TableHead>
               {manufacturers.map((manufacturer) => (
                 <TableHead key={manufacturer} className="font-bold text-base min-w-[250px]">
                   {manufacturer}
@@ -156,7 +158,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                   {rowIndex === 0 && (
                     <TableCell
                       rowSpan={maxModels}
-                      className="align-top border-r font-medium bg-muted/20 sticky left-0 z-10"
+                      className="align-top border-r font-medium bg-background sticky left-0 z-10"
                     >
                       <div className="space-y-3 py-2">
                         <div className="text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
@@ -233,7 +235,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 Pricing Information
                               </div>
                               <div className="text-xl font-bold text-primary">
-                                Total: {formatCurrency(model.salesPrice)}
+                                Sales Price: {formatCurrency(model.salesPrice)}
                               </div>
                               <div className="text-sm space-y-1">
                                 <div className="text-muted-foreground">
@@ -266,7 +268,9 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
             })}
           </TableBody>
         </Table>
-      </div>
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };
