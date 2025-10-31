@@ -131,19 +131,19 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
           </Select>
         </div>
       </div>
-      <ScrollArea className="h-[600px] w-full border rounded-md">
-        <div className="relative">
+      <div className="relative border rounded-md">
+        <ScrollArea className="h-[600px]">
           <Table>
-            <TableHeader className="sticky top-0 z-10 bg-background">
+            <TableHeader className="sticky top-0 z-30 bg-background">
               <TableRow className="bg-muted/50">
-                <TableHead className="font-bold text-base sticky left-0 z-20 bg-muted/50 border-r">Machine Specifications (Reference)</TableHead>
-              {manufacturers.map((manufacturer) => (
-                <TableHead key={manufacturer} className="font-bold text-base min-w-[250px]">
-                  {manufacturer}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
+                <TableHead className="font-bold text-base sticky left-0 z-40 bg-muted/50 border-r min-w-[250px]">Machine Specifications (Reference)</TableHead>
+                {manufacturers.map((manufacturer) => (
+                  <TableHead key={manufacturer} className="font-bold text-base min-w-[250px]">
+                    {manufacturer}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
           <TableBody>
             {filteredData.map((group, groupIndex) => {
               const referenceSpecs = group.referenceSpecs;
@@ -158,7 +158,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                   {rowIndex === 0 && (
                     <TableCell
                       rowSpan={maxModels}
-                      className="align-top border-r font-medium bg-background sticky left-0 z-10"
+                      className="align-top border-r font-medium bg-background sticky left-0 z-20 min-w-[250px]"
                     >
                       <div className="space-y-3 py-2">
                         <div className="text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
@@ -170,7 +170,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                         </div>
                         <div>
                           <span className="text-xs text-muted-foreground">Shot Size:</span>
-                          <p className="font-semibold">{referenceSpecs.shotSize} Oz.</p>
+                          <p className="font-semibold">{referenceSpecs.shotSize} oz.</p>
                         </div>
                         <div>
                           <span className="text-xs text-muted-foreground">Screw Type:</span>
@@ -203,7 +203,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Shot Size:</span>{" "}
-                                  <span className="font-medium">{model.shotSize} Oz.</span>
+                                  <span className="font-medium">{model.shotSize} oz.</span>
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Screw Type:</span>{" "}
@@ -211,7 +211,7 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Tie-bar Distance:</span>{" "}
-                                  <span className="font-medium">{model.tieBarDistance ? `${model.tieBarDistance} Inch` : <span className="text-muted-foreground/50">—</span>}</span>
+                                  <span className="font-medium">{model.tieBarDistance ? `${model.tieBarDistance} inches` : <span className="text-muted-foreground/50">—</span>}</span>
                                 </div>
                               </div>
                             </div>
@@ -268,9 +268,9 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
             })}
           </TableBody>
         </Table>
-        </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
+      </div>
     </div>
   );
 };
