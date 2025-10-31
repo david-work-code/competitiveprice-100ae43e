@@ -130,9 +130,9 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50">
-              <TableHead className="font-bold">Reference Specs</TableHead>
+              <TableHead className="font-bold text-base">Machine Specifications (Reference)</TableHead>
               {manufacturers.map((manufacturer) => (
-                <TableHead key={manufacturer} className="font-bold min-w-[250px]">
+                <TableHead key={manufacturer} className="font-bold text-base min-w-[250px]">
                   {manufacturer}
                 </TableHead>
               ))}
@@ -154,7 +154,10 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                       rowSpan={maxModels}
                       className="align-top border-r font-medium bg-muted/20"
                     >
-                      <div className="space-y-2 py-2">
+                      <div className="space-y-3 py-2">
+                        <div className="text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
+                          Specifications
+                        </div>
                         <div>
                           <span className="text-xs text-muted-foreground">Clamping Force:</span>
                           <p className="font-semibold">{referenceSpecs.clampingForce} US Ton</p>
@@ -178,28 +181,40 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                     return (
                       <TableCell key={manufacturer} className="align-top">
                         {model ? (
-                          <div className="space-y-2 py-2">
-                            <div className="font-semibold text-primary">
+                          <div className="space-y-3 py-2">
+                            <div className="font-semibold text-lg text-primary border-b pb-2">
                               {model.modelName}
                             </div>
-                            <div className="space-y-1 text-sm">
-                              <div>
-                                <span className="text-muted-foreground">Clamping Force:</span>{" "}
-                                {model.clampingForce} US Ton
+                            
+                            <div className="space-y-2">
+                              <div className="text-xs font-semibold text-primary uppercase tracking-wide">
+                                Machine Specifications
+                              </div>
+                              <div className="text-sm space-y-1">
+                                <div>
+                                  <span className="text-muted-foreground">Clamping Force:</span>{" "}
+                                  <span className="font-medium">{model.clampingForce} US Ton</span>
+                                </div>
+                                <div>
+                                  <span className="text-muted-foreground">Shot Size:</span>{" "}
+                                  <span className="font-medium">{model.shotSize}</span>
+                                </div>
+                                <div>
+                                  <span className="text-muted-foreground">Screw Type:</span>{" "}
+                                  <span className="font-medium">{model.screwType || <span className="text-muted-foreground/50">—</span>}</span>
+                                </div>
+                                <div>
+                                  <span className="text-muted-foreground">Tie-bar Distance:</span>{" "}
+                                  <span className="font-medium">{model.tieBarDistance || <span className="text-muted-foreground/50">—</span>}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-2">
+                              <div className="text-xs font-semibold text-primary uppercase tracking-wide">
+                                Availability
                               </div>
                               <div>
-                                <span className="text-muted-foreground">Tie-bar Distance:</span>{" "}
-                                {model.tieBarDistance || <span className="text-muted-foreground/50">—</span>}
-                              </div>
-                              <div>
-                                <span className="text-muted-foreground">Screw Type:</span>{" "}
-                                {model.screwType || <span className="text-muted-foreground/50">—</span>}
-                              </div>
-                              <div>
-                                <span className="text-muted-foreground">Shot Size:</span>{" "}
-                                {model.shotSize}
-                              </div>
-                              <div className="pt-1">
                                 <Badge
                                   variant={model.salesType === "STOCK" ? "default" : "secondary"}
                                   className="text-xs"
@@ -207,21 +222,33 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                   {model.salesType}
                                 </Badge>
                               </div>
-                              <div className="pt-2 text-lg font-bold text-primary">
-                                {formatCurrency(model.salesPrice)}
+                            </div>
+
+                            <div className="space-y-2 border-t pt-3">
+                              <div className="text-xs font-semibold text-primary uppercase tracking-wide">
+                                Pricing Information
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                List Price: {formatCurrency(model.listPrice)}
+                              <div className="text-xl font-bold text-primary">
+                                Total: {formatCurrency(model.salesPrice)}
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                Option Price: {formatCurrency(model.optionPrice)}
+                              <div className="text-sm space-y-1">
+                                <div className="text-muted-foreground">
+                                  <span className="text-xs">List Price:</span> {formatCurrency(model.listPrice)}
+                                </div>
+                                <div className="text-muted-foreground">
+                                  <span className="text-xs">Option Price:</span> {formatCurrency(model.optionPrice)}
+                                </div>
+                                <div className="text-muted-foreground">
+                                  <span className="text-xs">Freight:</span> {formatCurrency(model.freight)}
+                                </div>
+                                <div className="text-muted-foreground">
+                                  <span className="text-xs">Customer:</span> {model.customer || <span className="text-muted-foreground/50">—</span>}
+                                </div>
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                Freight: {formatCurrency(model.freight)}
-                              </div>
-                              <div className="text-xs text-muted-foreground">
-                                Checked: {model.checkedTime}
-                              </div>
+                            </div>
+
+                            <div className="text-xs text-muted-foreground border-t pt-2">
+                              Last Updated: {model.checkedTime}
                             </div>
                           </div>
                         ) : (
