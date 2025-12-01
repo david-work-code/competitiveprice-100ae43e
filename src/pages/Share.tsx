@@ -110,11 +110,19 @@ const Share = () => {
           </TabsList>
 
           <TabsContent value="hydraulic" className="mt-6">
-            <ComparisonTable data={comparisonData.hydraulic} productType="Hydraulic" />
+            <ComparisonTable 
+              dataRepresentative={comparisonData.hydraulic} 
+              dataEntire={comparisonData.hydraulic} 
+              productType="Hydraulic" 
+            />
           </TabsContent>
 
           <TabsContent value="electric" className="mt-6">
-            <ComparisonTable data={comparisonData.electric} productType="Electric" />
+            <ComparisonTable 
+              dataRepresentative={comparisonData.electric} 
+              dataEntire={comparisonData.electric} 
+              productType="Electric" 
+            />
           </TabsContent>
         </Tabs>
       </div>

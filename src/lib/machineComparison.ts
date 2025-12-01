@@ -5,8 +5,18 @@ export function compareMachines(machines: MachineData[]): ComparisonResult {
   const electric = machines.filter((m) => (m.productType || "").toLowerCase().includes("electric"));
 
   return {
-    hydraulic: groupSimilarMachinesToTableFormat(hydraulic),
-    electric: groupSimilarMachinesToTableFormat(electric),
+    hydraulic: groupSimilarMachinesToTableFormat(hydraulic, true),
+    electric: groupSimilarMachinesToTableFormat(electric, true),
+  };
+}
+
+export function compareMachinesEntire(machines: MachineData[]): ComparisonResult {
+  const hydraulic = machines.filter((m) => (m.productType || "").toLowerCase().includes("hydraulic"));
+  const electric = machines.filter((m) => (m.productType || "").toLowerCase().includes("electric"));
+
+  return {
+    hydraulic: groupSimilarMachinesToTableFormat(hydraulic, false),
+    electric: groupSimilarMachinesToTableFormat(electric, false),
   };
 }
 
@@ -51,7 +61,7 @@ function parseCheckedDate(checked: string): Date {
   return new Date(year, month);
 }
 
-function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[] {
+function groupSimilarMachinesToTableFormat(machines: MachineData[], filterDuplicates: boolean = true): TableGroup[] {
   if (!machines || machines.length === 0) return [];
 
   // Group by normalized specs (clamping force range, screw type, shot size range)
@@ -97,17 +107,27 @@ function groupSimilarMachinesToTableFormat(machines: MachineData[]): TableGroup[
     group.manufacturers[mfg].push(machine);
   });
 
-  // Filter to keep only the latest checked entry per manufacturer in each group
-  map.forEach((group) => {
-    Object.keys(group.manufacturers).forEach((mfg) => {
-      const machines = group.manufacturers[mfg];
-      if (machines.length > 1) {
-        // Sort by checked date descending and keep only the latest
-        machines.sort((a, b) => parseCheckedDate(b.checkedTime).getTime() - parseCheckedDate(a.checkedTime).getTime());
-        group.manufacturers[mfg] = [machines[0]];
-      }
+  // Filter to keep only the latest checked entry per manufacturer in each group (if filterDuplicates is true)
+  if (filterDuplicates) {
+    map.forEach((group) => {
+      Object.keys(group.manufacturers).forEach((mfg) => {
+        const machines = group.manufacturers[mfg];
+        if (machines.length > 1) {
+          // Sort by checked date descending and keep only the latest
+          machines.sort((a, b) => parseCheckedDate(b.checkedTime).getTime() - parseCheckedDate(a.checkedTime).getTime());
+          group.manufacturers[mfg] = [machines[0]];
+        }
+      });
     });
-  });
+  } else {
+    // Sort all machines by checked date descending
+    map.forEach((group) => {
+      Object.keys(group.manufacturers).forEach((mfg) => {
+        const machines = group.manufacturers[mfg];
+        machines.sort((a, b) => parseCheckedDate(b.checkedTime).getTime() - parseCheckedDate(a.checkedTime).getTime());
+      });
+    });
+  }
 
   // Convert to the structure expected by ComparisonTable:
   // { referenceSpecs: {...}, [manufacturer]: MachineData[] }

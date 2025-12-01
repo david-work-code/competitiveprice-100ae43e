@@ -27,6 +27,7 @@ export interface MachineData {
   checkedTime: string;
   salesType: string;
   performance?: string;
+  injectionUnit?: string;
 }
 
 export interface ComparisonResult {
@@ -34,16 +35,22 @@ export interface ComparisonResult {
   electric: any[];
 }
 
+export interface ComparisonDataState {
+  representative: ComparisonResult;
+  entire: ComparisonResult;
+  rawMachines: MachineData[];
+}
+
 const Index = () => {
-  const [comparisonData, setComparisonData] = useState<ComparisonResult | null>(null);
+  const [comparisonData, setComparisonData] = useState<ComparisonDataState | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [shareId, setShareId] = useState<string | null>(null);
 
-  const handleFileProcessed = async (data: ComparisonResult) => {
+  const handleFileProcessed = async (data: ComparisonDataState) => {
     setComparisonData(data);
     
     // Automatically generate share link
-    await saveAndGenerateShareLink(data);
+    await saveAndGenerateShareLink(data.representative);
   };
 
   const saveAndGenerateShareLink = async (data: ComparisonResult) => {
@@ -207,14 +214,16 @@ const Index = () => {
 
                 <TabsContent value="hydraulic" className="mt-6">
                   <ComparisonTable
-                    data={comparisonData.hydraulic}
+                    dataRepresentative={comparisonData.representative.hydraulic}
+                    dataEntire={comparisonData.entire.hydraulic}
                     productType="Hydraulic"
                   />
                 </TabsContent>
 
                 <TabsContent value="electric" className="mt-6">
                   <ComparisonTable
-                    data={comparisonData.electric}
+                    dataRepresentative={comparisonData.representative.electric}
+                    dataEntire={comparisonData.entire.electric}
                     productType="Electric"
                   />
                 </TabsContent>

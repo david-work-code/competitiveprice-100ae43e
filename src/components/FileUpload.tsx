@@ -4,11 +4,11 @@ import { Upload, FileSpreadsheet, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import * as XLSX from "xlsx";
-import type { ComparisonResult, MachineData } from "@/pages/Index";
-import { compareMachines } from "@/lib/machineComparison";
+import type { ComparisonDataState, MachineData } from "@/pages/Index";
+import { compareMachines, compareMachinesEntire } from "@/lib/machineComparison";
 
 interface FileUploadProps {
-  onDataProcessed: (data: ComparisonResult) => void;
+  onDataProcessed: (data: ComparisonDataState) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }
@@ -51,11 +51,18 @@ const FileUpload = ({ onDataProcessed, isLoading, setIsLoading }: FileUploadProp
         customer: row["Customer"] || "",
         checkedTime: row["Checked Time"] || "",
         salesType: row["Sales Type"] || "",
+        injectionUnit: row["Injection Unit"] || "",
       }));
 
-      // Process comparison logic
-      const comparisonResult = compareMachines(machines);
-      onDataProcessed(comparisonResult);
+      // Process comparison logic - generate both representative and entire versions
+      const representativeResult = compareMachines(machines);
+      const entireResult = compareMachinesEntire(machines);
+      
+      onDataProcessed({
+        representative: representativeResult,
+        entire: entireResult,
+        rawMachines: machines,
+      });
       
       toast({
         title: "File processed successfully",
