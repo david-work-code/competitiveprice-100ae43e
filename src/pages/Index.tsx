@@ -97,16 +97,16 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-secondary/30 to-background">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80">
-              <Zap className="h-6 w-6 text-primary-foreground" />
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-primary to-primary/80">
+              <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">
+              <h1 className="text-lg sm:text-2xl font-bold text-foreground">
                 Machine Price Comparison
               </h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
                 Intelligent competitor analysis for injection molding machines
               </p>
             </div>
@@ -114,16 +114,16 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {!comparisonData ? (
           <div className="max-w-3xl mx-auto">
-            <Card className="p-8 shadow-medium">
-              <div className="text-center mb-6">
-                <div className="inline-flex p-4 rounded-full bg-primary/10 mb-4">
-                  <Upload className="h-8 w-8 text-primary" />
+            <Card className="p-4 sm:p-8 shadow-medium">
+              <div className="text-center mb-4 sm:mb-6">
+                <div className="inline-flex p-3 sm:p-4 rounded-full bg-primary/10 mb-3 sm:mb-4">
+                  <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2">Upload Your Data</h2>
-                <p className="text-muted-foreground">
+                <h2 className="text-xl sm:text-2xl font-bold mb-2">Upload Your Data</h2>
+                <p className="text-sm sm:text-base text-muted-foreground">
                   Upload your Excel file with machine specifications and pricing data.
                   Our AI will automatically analyze and compare similar models across manufacturers.
                 </p>
@@ -135,9 +135,9 @@ const Index = () => {
                 setIsLoading={setIsLoading}
               />
 
-              <div className="mt-8 pt-6 border-t">
-                <h3 className="font-semibold mb-3">Key Features:</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
+              <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t">
+                <h3 className="font-semibold mb-3 text-sm sm:text-base">Key Features:</h3>
+                <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <span className="text-accent font-bold">•</span>
                     <span>Automatic grouping by Product Type (Hydraulic/Electric)</span>
@@ -159,13 +159,13 @@ const Index = () => {
             </Card>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {shareId && (
-              <Card className="p-4 shadow-medium bg-primary/5 border-primary/20">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-foreground mb-1 flex items-center gap-2">
-                      <Share2 className="h-4 w-4" />
+              <Card className="p-3 sm:p-4 shadow-medium bg-primary/5 border-primary/20">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                  <div className="flex-1 w-full">
+                    <p className="text-xs sm:text-sm font-semibold text-foreground mb-1 flex items-center gap-2">
+                      <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                       Share this comparison
                     </p>
                     <code className="text-xs text-muted-foreground break-all block bg-background/50 p-2 rounded">
@@ -176,20 +176,20 @@ const Index = () => {
                     onClick={copyShareLink}
                     size="sm"
                     variant="outline"
-                    className="flex items-center gap-2 shrink-0"
+                    className="flex items-center gap-2 w-full sm:w-auto"
                   >
                     <Copy className="h-4 w-4" />
-                    Copy Link
+                    <span className="sm:inline">Copy Link</span>
                   </Button>
                 </div>
               </Card>
             )}
             
-            <Card className="p-6 shadow-medium">
-              <div className="flex items-center justify-between mb-4">
+            <Card className="p-4 sm:p-6 shadow-medium">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-4">
                 <div>
-                  <h2 className="text-xl font-bold">Comparison Results</h2>
-                  <p className="text-sm text-muted-foreground">
+                  <h2 className="text-lg sm:text-xl font-bold">Comparison Results</h2>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     Similar models grouped by manufacturer for easy price comparison
                   </p>
                 </div>
@@ -197,6 +197,7 @@ const Index = () => {
                   onClick={handleUploadNew}
                   variant="outline"
                   size="sm"
+                  className="w-full sm:w-auto"
                 >
                   Upload New File
                 </Button>

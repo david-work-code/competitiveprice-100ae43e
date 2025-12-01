@@ -101,11 +101,11 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-4 flex-wrap">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">Data View</label>
+          <label className="text-xs sm:text-sm font-medium">Data View</label>
           <Select value={dataMode} onValueChange={setDataMode}>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-full h-9 sm:h-10">
               <SelectValue placeholder="Select view" />
             </SelectTrigger>
             <SelectContent>
@@ -116,9 +116,9 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">Clamping Force</label>
+          <label className="text-xs sm:text-sm font-medium">Clamping Force</label>
           <Select value={selectedClampingForce} onValueChange={setSelectedClampingForce}>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-full h-9 sm:h-10">
               <SelectValue placeholder="All clamping forces" />
             </SelectTrigger>
             <SelectContent>
@@ -133,9 +133,9 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">Tonnage Category</label>
+          <label className="text-xs sm:text-sm font-medium">Tonnage Category</label>
           <Select value={selectedTonnageCategory} onValueChange={setSelectedTonnageCategory}>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-full h-9 sm:h-10">
               <SelectValue placeholder="All categories" />
             </SelectTrigger>
             <SelectContent>
@@ -149,14 +149,14 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
           </Select>
         </div>
       </div>
-      <div className="relative border rounded-md">
-        <ScrollArea className="h-[600px]">
+      <div className="relative border rounded-md -mx-3 sm:mx-0">
+        <ScrollArea className="h-[400px] sm:h-[500px] lg:h-[600px]">
           <Table>
             <TableHeader className="sticky top-0 z-30 bg-background">
               <TableRow className="bg-muted/50">
-                <TableHead className="font-bold text-base sticky left-0 z-40 bg-muted/50 border-r min-w-[250px]">Machine Specifications (Reference)</TableHead>
+                <TableHead className="font-bold text-xs sm:text-sm lg:text-base sticky left-0 z-40 bg-muted/50 border-r min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4">Machine Specifications (Reference)</TableHead>
                 {manufacturers.map((manufacturer) => (
-                  <TableHead key={manufacturer} className="font-bold text-base min-w-[250px]">
+                  <TableHead key={manufacturer} className="font-bold text-xs sm:text-sm lg:text-base min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4">
                     {manufacturer}
                   </TableHead>
                 ))}
@@ -176,23 +176,23 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                   {rowIndex === 0 && (
                     <TableCell
                       rowSpan={maxModels}
-                      className="align-top border-r font-medium bg-background sticky left-0 z-20 min-w-[250px]"
+                      className="align-top border-r font-medium bg-background sticky left-0 z-20 min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4"
                     >
-                      <div className="space-y-3 py-2">
-                        <div className="text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
+                      <div className="space-y-2 sm:space-y-3 py-1 sm:py-2">
+                        <div className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
                           Specifications
                         </div>
                         <div>
-                          <span className="text-xs text-muted-foreground">Clamping Force:</span>
-                          <p className="font-semibold">{referenceSpecs.clampingForce} US Ton</p>
+                          <span className="text-[10px] sm:text-xs text-muted-foreground">Clamping Force:</span>
+                          <p className="text-xs sm:text-sm font-semibold">{referenceSpecs.clampingForce} US Ton</p>
                         </div>
                         <div>
-                          <span className="text-xs text-muted-foreground">Shot Size:</span>
-                          <p className="font-semibold">{referenceSpecs.shotSize} oz.</p>
+                          <span className="text-[10px] sm:text-xs text-muted-foreground">Shot Size:</span>
+                          <p className="text-xs sm:text-sm font-semibold">{referenceSpecs.shotSize} oz.</p>
                         </div>
                         <div>
-                          <span className="text-xs text-muted-foreground">Screw Type:</span>
-                          <p className="font-semibold">{referenceSpecs.screwType}</p>
+                          <span className="text-[10px] sm:text-xs text-muted-foreground">Screw Type:</span>
+                          <p className="text-xs sm:text-sm font-semibold">{referenceSpecs.screwType}</p>
                         </div>
                       </div>
                     </TableCell>
@@ -203,18 +203,18 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                     const model = models[rowIndex];
 
                     return (
-                      <TableCell key={manufacturer} className="align-top">
+                      <TableCell key={manufacturer} className="align-top p-2 sm:p-3 lg:p-4">
                         {model ? (
-                          <div className="space-y-3 py-2">
-                            <div className="font-semibold text-lg text-primary border-b pb-2">
+                          <div className="space-y-2 sm:space-y-3 py-1 sm:py-2">
+                            <div className="font-semibold text-sm sm:text-base lg:text-lg text-primary border-b pb-1 sm:pb-2">
                               {model.modelName}
                             </div>
                             
-                            <div className="space-y-2">
-                              <div className="text-xs font-semibold text-primary uppercase tracking-wide">
+                            <div className="space-y-1 sm:space-y-2">
+                              <div className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide">
                                 Machine Specifications
                               </div>
-                              <div className="text-sm space-y-1">
+                              <div className="text-xs sm:text-sm space-y-1">
                                 <div>
                                   <span className="text-muted-foreground">Clamping Force:</span>{" "}
                                   <span className="font-medium">{model.clampingForce} US Ton</span>
@@ -238,28 +238,28 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                               </div>
                             </div>
 
-                            <div className="space-y-2">
-                              <div className="text-xs font-semibold text-primary uppercase tracking-wide">
+                            <div className="space-y-1 sm:space-y-2">
+                              <div className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide">
                                 Availability
                               </div>
                               <div>
                                 <Badge
                                   variant={model.salesType === "STOCK" ? "default" : "secondary"}
-                                  className="text-xs"
+                                  className="text-[10px] sm:text-xs"
                                 >
                                   {model.salesType}
                                 </Badge>
                               </div>
                             </div>
 
-                            <div className="space-y-2 border-t pt-3">
-                              <div className="text-xs font-semibold text-primary uppercase tracking-wide">
+                            <div className="space-y-1 sm:space-y-2 border-t pt-2 sm:pt-3">
+                              <div className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide">
                                 Pricing Information
                               </div>
-                              <div className="text-xl font-bold text-primary">
+                              <div className="text-base sm:text-lg lg:text-xl font-bold text-primary">
                                 Sales Price: {formatCurrency(model.salesPrice)}
                               </div>
-                              <div className="text-sm space-y-1">
+                              <div className="text-xs sm:text-sm space-y-1">
                                 <div className="text-muted-foreground">
                                   <span className="text-xs">List Price:</span> {formatCurrency(model.listPrice)}
                                 </div>
@@ -275,12 +275,12 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                               </div>
                             </div>
 
-                            <div className="text-xs text-muted-foreground border-t pt-2">
+                            <div className="text-[10px] sm:text-xs text-muted-foreground border-t pt-1 sm:pt-2">
                               Last Updated: {model.checkedTime}
                             </div>
                           </div>
                         ) : (
-                          <div className="py-2 text-muted-foreground/50">—</div>
+                          <div className="py-1 sm:py-2 text-muted-foreground/50 text-center">—</div>
                         )}
                       </TableCell>
                     );
