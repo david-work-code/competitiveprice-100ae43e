@@ -20,7 +20,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/lib/utils";
 
 interface ComparisonTableProps {
-  data: any[];
+  dataRepresentative: any[];
+  dataEntire: any[];
   productType: string;
 }
 
@@ -30,9 +31,13 @@ const getTonnageCategory = (clampingForce: number): string => {
   return "Large (>1100 Tons)";
 };
 
-const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
+const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: ComparisonTableProps) => {
   const [selectedClampingForce, setSelectedClampingForce] = useState<string>("all");
   const [selectedTonnageCategory, setSelectedTonnageCategory] = useState<string>("all");
+  const [dataMode, setDataMode] = useState<string>("representative");
+
+  // Use the appropriate data based on the selected mode
+  const data = dataMode === "representative" ? dataRepresentative : dataEntire;
 
   if (!data || data.length === 0) {
     return (
@@ -97,6 +102,19 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
   return (
     <div className="space-y-4">
       <div className="flex gap-4 flex-wrap">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium">Data View</label>
+          <Select value={dataMode} onValueChange={setDataMode}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Select view" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="representative">Representative Only</SelectItem>
+              <SelectItem value="entire">Entire</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium">Clamping Force</label>
           <Select value={selectedClampingForce} onValueChange={setSelectedClampingForce}>
@@ -208,6 +226,10 @@ const ComparisonTable = ({ data, productType }: ComparisonTableProps) => {
                                 <div>
                                   <span className="text-muted-foreground">Screw Type:</span>{" "}
                                   <span className="font-medium">{model.screwType || <span className="text-muted-foreground/50">—</span>}</span>
+                                </div>
+                                <div>
+                                  <span className="text-muted-foreground">Injection Unit:</span>{" "}
+                                  <span className="font-medium">{model.injectionUnit || <span className="text-muted-foreground/50">—</span>}</span>
                                 </div>
                                 <div>
                                   <span className="text-muted-foreground">Tie-bar Distance:</span>{" "}
