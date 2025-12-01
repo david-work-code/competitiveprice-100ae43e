@@ -104,7 +104,7 @@ const FileUpload = ({ onDataProcessed, isLoading, setIsLoading }: FileUploadProp
     <div
       {...getRootProps()}
       className={`
-        border-2 border-dashed rounded-xl p-12 text-center cursor-pointer
+        border-2 border-dashed rounded-xl p-6 sm:p-8 lg:p-12 text-center cursor-pointer
         transition-all duration-300
         ${
           isDragActive
@@ -119,36 +119,36 @@ const FileUpload = ({ onDataProcessed, isLoading, setIsLoading }: FileUploadProp
       <div className="flex flex-col items-center gap-4">
         {isLoading ? (
           <>
-            <Loader2 className="h-12 w-12 text-primary animate-spin" />
+            <Loader2 className="h-10 w-10 sm:h-12 sm:w-12 text-primary animate-spin" />
             <div>
-              <p className="text-lg font-medium">Processing {fileName}...</p>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-base sm:text-lg font-medium">Processing {fileName}...</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                 AI is analyzing your data and generating comparisons
               </p>
             </div>
           </>
         ) : (
           <>
-            <div className="p-4 rounded-full bg-primary/10">
+            <div className="p-3 sm:p-4 rounded-full bg-primary/10">
               {isDragActive ? (
-                <FileSpreadsheet className="h-12 w-12 text-primary" />
+                <FileSpreadsheet className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
               ) : (
-                <Upload className="h-12 w-12 text-primary" />
+                <Upload className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
               )}
             </div>
             
             <div>
-              <p className="text-lg font-medium mb-1">
+              <p className="text-base sm:text-lg font-medium mb-1">
                 {isDragActive
                   ? "Drop your Excel file here"
                   : "Drag & drop your Excel file here"}
               </p>
-              <p className="text-sm text-muted-foreground">
-                or click to browse files (.xlsx, .xls)
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                or tap to browse files (.xlsx, .xls)
               </p>
             </div>
 
-            <Button type="button" variant="outline" size="sm" className="mt-2">
+            <Button type="button" variant="outline" size="sm" className="mt-2 w-full sm:w-auto">
               Select File
             </Button>
           </>
