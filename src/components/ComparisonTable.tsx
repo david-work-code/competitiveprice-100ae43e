@@ -86,7 +86,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
     });
   }, [data, selectedClampingForce, selectedTonnageCategory]);
 
-  // Extract unique manufacturers for column headers, with LS first
+  // Extract unique manufacturers for column headers, with LS Mtron first
   const manufacturers = Array.from(
     new Set(
       data.flatMap((group) =>
@@ -94,10 +94,16 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
       )
     )
   ).sort((a, b) => {
-    if (a === "LS") return -1;
-    if (b === "LS") return 1;
+    const isLSA = a === "LS" || a === "LS Mtron";
+    const isLSB = b === "LS" || b === "LS Mtron";
+    if (isLSA) return -1;
+    if (isLSB) return 1;
     return a.localeCompare(b);
   });
+
+  // Check if LS Mtron is the first manufacturer
+  const lsManufacturer = manufacturers[0];
+  const isLSFirst = lsManufacturer === "LS" || lsManufacturer === "LS Mtron";
 
   return (
     <div className="space-y-4">
@@ -154,9 +160,14 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
           <Table>
             <TableHeader className="sticky top-0 z-30 bg-background">
               <TableRow className="bg-muted/50">
-                <TableHead className="font-bold text-xs sm:text-sm lg:text-base sticky left-0 z-40 bg-muted/50 border-r min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4">Machine Specifications (Reference)</TableHead>
-                {manufacturers.map((manufacturer) => (
-                  <TableHead key={manufacturer} className="font-bold text-xs sm:text-sm lg:text-base min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4">
+                <TableHead className="font-bold text-xs sm:text-sm lg:text-base sticky left-0 z-40 bg-muted/50 border-r min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4">Machine Specifications (Reference)</TableHead>
+                {manufacturers.map((manufacturer, idx) => (
+                  <TableHead 
+                    key={manufacturer} 
+                    className={`font-bold text-xs sm:text-sm lg:text-base min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4 ${
+                      idx === 0 && isLSFirst ? 'sticky left-[140px] sm:left-[180px] lg:left-[200px] z-40 bg-muted/50 border-r' : ''
+                    }`}
+                  >
                     {manufacturer}
                   </TableHead>
                 ))}
@@ -176,7 +187,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                   {rowIndex === 0 && (
                     <TableCell
                       rowSpan={maxModels}
-                      className="align-top border-r font-medium bg-background sticky left-0 z-20 min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4"
+                      className="align-top border-r font-medium bg-background sticky left-0 z-20 min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4"
                     >
                       <div className="space-y-2 sm:space-y-3 py-1 sm:py-2">
                         <div className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
@@ -198,12 +209,18 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                     </TableCell>
                   )}
                   
-                  {manufacturers.map((manufacturer) => {
+                  {manufacturers.map((manufacturer, idx) => {
                     const models = group[manufacturer] || [];
                     const model = models[rowIndex];
+                    const isFirstManufacturer = idx === 0 && isLSFirst;
 
                     return (
-                      <TableCell key={manufacturer} className="align-top p-2 sm:p-3 lg:p-4">
+                      <TableCell 
+                        key={manufacturer} 
+                        className={`align-top p-2 sm:p-3 lg:p-4 ${
+                          isFirstManufacturer ? 'sticky left-[140px] sm:left-[180px] lg:left-[200px] z-20 bg-background border-r' : ''
+                        }`}
+                      >
                         {model ? (
                           <div className="space-y-2 sm:space-y-3 py-1 sm:py-2">
                             <div className="font-semibold text-sm sm:text-base lg:text-lg text-primary border-b pb-1 sm:pb-2">
