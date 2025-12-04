@@ -32,26 +32,39 @@ const FileUpload = ({ onDataProcessed, isLoading, setIsLoading }: FileUploadProp
 
       const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet);
       
+      // Helper function to get value from row with case-insensitive key matching
+      const getRowValue = (row: any, ...possibleKeys: string[]): string => {
+        const rowKeys = Object.keys(row);
+        for (const key of possibleKeys) {
+          // Try exact match first
+          if (row[key] !== undefined) return row[key]?.toString() || "";
+          // Try case-insensitive match
+          const foundKey = rowKeys.find(k => k.toLowerCase() === key.toLowerCase());
+          if (foundKey && row[foundKey] !== undefined) return row[foundKey]?.toString() || "";
+        }
+        return "";
+      };
+      
       // Transform the data to match our interface
       const machines: MachineData[] = jsonData.map((row: any) => ({
-        manufacturer: row["Manufacturer"] || "",
-        modelSeries: row["Model Series"] || "",
-        modelName: row["Model Name"] || "",
-        productType: row["Product Type"] || "",
-        clampingForce: row["Clamping force (US Ton)"]?.toString() || "",
-        screwType: row["Screw Type"] || "",
-        screwDiameter: row["Screw Diameter"]?.toString() || "",
-        tieBarDistance: row["Tie-bar Distance"]?.toString() || "",
-        screwStroke: row["Screw Stroke"]?.toString() || "",
-        shotSize: row["Shot size"]?.toString() || "",
-        optionPrice: row["Option Price"]?.toString() || "",
-        freight: row["Freight"]?.toString() || "",
-        listPrice: row["List Price"]?.toString() || "",
-        salesPrice: row["Sales Price"]?.toString() || "",
-        customer: row["Customer"] || "",
-        checkedTime: row["Checked Time"] || "",
-        salesType: row["Sales Type"] || "",
-        injectionUnit: row["Injection Unit"] || "",
+        manufacturer: getRowValue(row, "Manufacturer"),
+        modelSeries: getRowValue(row, "Model Series"),
+        modelName: getRowValue(row, "Model Name"),
+        productType: getRowValue(row, "Product Type"),
+        clampingForce: getRowValue(row, "Clamping force (US Ton)", "Clamping Force (US Ton)", "Clamping Force"),
+        screwType: getRowValue(row, "Screw Type"),
+        screwDiameter: getRowValue(row, "Screw Diameter"),
+        tieBarDistance: getRowValue(row, "Tie-bar Distance", "Tie-Bar Distance", "Tiebar Distance"),
+        screwStroke: getRowValue(row, "Screw Stroke"),
+        shotSize: getRowValue(row, "Shot size", "Shot Size"),
+        optionPrice: getRowValue(row, "Option Price"),
+        freight: getRowValue(row, "Freight"),
+        listPrice: getRowValue(row, "List Price"),
+        salesPrice: getRowValue(row, "Sales Price"),
+        customer: getRowValue(row, "Customer"),
+        checkedTime: getRowValue(row, "Checked Time"),
+        salesType: getRowValue(row, "Sales Type"),
+        injectionUnit: getRowValue(row, "Injection Unit"),
       }));
 
       // Process comparison logic - generate both representative and entire versions
