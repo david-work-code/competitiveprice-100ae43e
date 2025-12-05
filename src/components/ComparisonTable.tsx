@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Table,
@@ -37,9 +37,23 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
   const [selectedClampingForce, setSelectedClampingForce] = useState<string>("all");
   const [selectedTonnageCategory, setSelectedTonnageCategory] = useState<string>("all");
   const [selectedGroup, setSelectedGroup] = useState<any | null>(null);
+  const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Use representative data for main view
   const data = dataRepresentative;
+
+  // Restore scroll position when returning from detail view
+  useEffect(() => {
+    if (!selectedGroup && savedScrollPosition > 0 && scrollContainerRef.current) {
+      const viewport = scrollContainerRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (viewport) {
+        setTimeout(() => {
+          viewport.scrollTop = savedScrollPosition;
+        }, 50);
+      }
+    }
+  }, [selectedGroup, savedScrollPosition]);
 
   if (!data || data.length === 0) {
     return (
@@ -104,19 +118,47 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
   const lsManufacturer = manufacturers[0];
   const isLSFirst = lsManufacturer === "LS" || lsManufacturer === "LS Mtron";
 
-  // Find entire data for selected group
-  const getEntireGroupData = (referenceSpecs: any) => {
-    return dataEntire.find(
-      (g) =>
-        g.referenceSpecs?.clampingForce === referenceSpecs?.clampingForce &&
-        g.referenceSpecs?.shotSize === referenceSpecs?.shotSize &&
-        g.referenceSpecs?.screwType === referenceSpecs?.screwType
+  // Get all models with the same clamping force (regardless of screw type and shot size)
+  const getAllModelsForClampingForce = (clampingForce: number) => {
+    const allGroups = dataEntire.filter(
+      (g) => g.referenceSpecs?.clampingForce === clampingForce
     );
+    
+    // Merge all models from all matching groups by manufacturer
+    const mergedData: Record<string, any[]> = {};
+    allGroups.forEach((group) => {
+      Object.keys(group).forEach((key) => {
+        if (key !== "referenceSpecs") {
+          if (!mergedData[key]) {
+            mergedData[key] = [];
+          }
+          mergedData[key].push(...(group[key] || []));
+        }
+      });
+    });
+    
+    return {
+      referenceSpecs: { clampingForce },
+      ...mergedData,
+    };
   };
 
   const handleRowClick = (group: any) => {
-    const entireGroup = getEntireGroupData(group.referenceSpecs);
-    setSelectedGroup(entireGroup || group);
+    // Save current scroll position
+    if (scrollContainerRef.current) {
+      const viewport = scrollContainerRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (viewport) {
+        setSavedScrollPosition(viewport.scrollTop);
+      }
+    }
+    
+    // Get all models with same clamping force
+    const allModels = getAllModelsForClampingForce(group.referenceSpecs?.clampingForce);
+    setSelectedGroup(allModels);
+  };
+
+  const handleBack = () => {
+    setSelectedGroup(null);
   };
 
   // Detail view for selected group
@@ -134,18 +176,18 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" onClick={() => setSelectedGroup(null)}>
+          <Button variant="outline" size="sm" onClick={handleBack}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
           <div className="text-sm sm:text-base">
-            <span className="font-semibold">Specification:</span>{" "}
-            {selectedGroup.referenceSpecs?.clampingForce} US Ton / {selectedGroup.referenceSpecs?.shotSize} oz. / {selectedGroup.referenceSpecs?.screwType}
+            <span className="font-semibold">All models for:</span>{" "}
+            <Badge variant="default" className="text-sm">{selectedGroup.referenceSpecs?.clampingForce} US Ton</Badge>
           </div>
         </div>
 
         <div className="relative border rounded-md -mx-3 sm:mx-0">
-          <ScrollArea className="h-[400px] sm:h-[500px] lg:h-[600px]">
+          <ScrollArea className="h-[400px] sm:h-[500px] lg:h-[600px] [&_[data-radix-scroll-area-scrollbar]]:w-3 [&_[data-radix-scroll-area-scrollbar]]:bg-muted [&_[data-radix-scroll-area-thumb]]:bg-primary/50 [&_[data-radix-scroll-area-thumb]]:hover:bg-primary/70 [&_[data-radix-scroll-area-scrollbar][data-orientation=horizontal]]:h-3">
             <Table>
               <TableHeader className="sticky top-0 z-30">
                 <TableRow className="bg-muted">
@@ -175,7 +217,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                       </TableCell>
                       <TableCell className="font-semibold text-primary text-xs sm:text-sm p-2 sm:p-3">{model.modelName}</TableCell>
                       <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.clampingForce} US Ton</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.shotSize} oz.</TableCell>
+                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.shotSize ? `${model.shotSize} oz.` : "—"}</TableCell>
                       <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.screwType || "—"}</TableCell>
                       <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.injectionUnit || "—"}</TableCell>
                       <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.tieBarDistance ? `${model.tieBarDistance}"` : "—"}</TableCell>
@@ -244,7 +286,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
         💡 Click on any row to view all sales history for that specification
       </p>
 
-      <div className="relative border rounded-md -mx-3 sm:mx-0">
+      <div className="relative border rounded-md -mx-3 sm:mx-0" ref={scrollContainerRef}>
         <ScrollArea className="h-[400px] sm:h-[500px] lg:h-[600px]">
           <Table>
             <TableHeader className="sticky top-0 z-30">
