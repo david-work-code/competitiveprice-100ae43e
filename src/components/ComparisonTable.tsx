@@ -186,25 +186,25 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
           </div>
         </div>
 
-        <div className="relative border rounded-md -mx-3 sm:mx-0">
-          <ScrollArea className="h-[400px] sm:h-[500px] lg:h-[600px] [&_[data-radix-scroll-area-scrollbar]]:w-3 [&_[data-radix-scroll-area-scrollbar]]:bg-muted [&_[data-radix-scroll-area-thumb]]:bg-primary/50 [&_[data-radix-scroll-area-thumb]]:hover:bg-primary/70 [&_[data-radix-scroll-area-scrollbar][data-orientation=horizontal]]:h-3">
-            <Table>
-              <TableHeader className="sticky top-0 z-30">
-                <TableRow className="bg-muted">
-                  <TableHead className="font-bold text-xs sm:text-sm sticky left-0 z-40 bg-muted border-r min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Manufacturer</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[120px] sm:min-w-[150px] p-2 sm:p-3">Model</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Clamping Force</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[70px] sm:min-w-[90px] p-2 sm:p-3">Shot Size</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Screw Type</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Injection Unit</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Tie-bar</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[70px] sm:min-w-[80px] p-2 sm:p-3">Type</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">List Price</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Option</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Freight</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[100px] sm:min-w-[130px] p-2 sm:p-3">Sales Price</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Customer</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm min-w-[90px] sm:min-w-[100px] p-2 sm:p-3">Date</TableHead>
+        <div className="relative border rounded-md -mx-3 sm:mx-0 overflow-hidden">
+          <div className="h-[400px] sm:h-[500px] lg:h-[600px] overflow-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70">
+            <Table className="relative">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 left-0 z-50 bg-muted border-r border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Manufacturer</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[120px] sm:min-w-[150px] p-2 sm:p-3">Model</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Clamping Force</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[70px] sm:min-w-[90px] p-2 sm:p-3">Shot Size</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Screw Type</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Injection Unit</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Tie-bar</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[70px] sm:min-w-[80px] p-2 sm:p-3">Type</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">List Price</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Option</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Freight</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[130px] p-2 sm:p-3">Sales Price</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Customer</TableHead>
+                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[90px] sm:min-w-[100px] p-2 sm:p-3">Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -212,7 +212,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                   const models = selectedGroup[manufacturer] || [];
                   return models.map((model: any, idx: number) => (
                     <TableRow key={`${manufacturer}-${idx}`} className="hover:bg-muted/30">
-                      <TableCell className="font-medium sticky left-0 z-20 bg-background border-r text-xs sm:text-sm p-2 sm:p-3">
+                      <TableCell className="font-medium sticky left-0 z-30 bg-background border-r text-xs sm:text-sm p-2 sm:p-3">
                         {manufacturer}
                       </TableCell>
                       <TableCell className="font-semibold text-primary text-xs sm:text-sm p-2 sm:p-3">{model.modelName}</TableCell>
@@ -237,8 +237,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                 })}
               </TableBody>
             </Table>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          </div>
         </div>
       </div>
     );
@@ -286,20 +285,18 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
         💡 Click on any row to view all sales history for that specification
       </p>
 
-      <div className="relative border rounded-md -mx-3 sm:mx-0" ref={scrollContainerRef}>
-        <ScrollArea className="h-[400px] sm:h-[500px] lg:h-[600px]">
-          <Table>
-            <TableHeader className="sticky top-0 z-30">
-              <TableRow className="bg-muted">
-                <TableHead className="font-bold text-xs sm:text-sm lg:text-base sticky left-0 z-40 bg-muted border-r min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4">
+      <div className="relative border rounded-md -mx-3 sm:mx-0 overflow-hidden" ref={scrollContainerRef}>
+        <div className="h-[400px] sm:h-[500px] lg:h-[600px] overflow-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70">
+          <Table className="relative">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="font-bold text-xs sm:text-sm lg:text-base sticky top-0 left-0 z-50 bg-muted border-r border-b min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4">
                   Machine Specifications (Reference)
                 </TableHead>
-                {manufacturers.map((manufacturer, idx) => (
+                {manufacturers.map((manufacturer) => (
                   <TableHead 
                     key={manufacturer} 
-                    className={`font-bold text-xs sm:text-sm lg:text-base min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4 ${
-                      idx === 0 && isLSFirst ? 'sticky left-[140px] sm:left-[180px] lg:left-[200px] z-40 bg-muted border-r' : ''
-                    }`}
+                    className="font-bold text-xs sm:text-sm lg:text-base sticky top-0 z-40 bg-muted border-b min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4"
                   >
                     {manufacturer}
                   </TableHead>
@@ -324,7 +321,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                     {rowIndex === 0 && (
                       <TableCell
                         rowSpan={maxModels}
-                        className="align-top border-r font-medium bg-background sticky left-0 z-20 min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4"
+                        className="align-top border-r font-medium bg-background sticky left-0 z-30 min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4"
                       >
                         <div className="space-y-2 sm:space-y-3 py-1 sm:py-2">
                           <div className="text-[10px] sm:text-xs font-semibold text-primary uppercase tracking-wide border-b pb-1">
@@ -346,17 +343,14 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                       </TableCell>
                     )}
                     
-                    {manufacturers.map((manufacturer, idx) => {
+                    {manufacturers.map((manufacturer) => {
                       const models = group[manufacturer] || [];
                       const model = models[rowIndex];
-                      const isFirstManufacturer = idx === 0 && isLSFirst;
 
                       return (
                         <TableCell 
                           key={manufacturer} 
-                          className={`align-top p-2 sm:p-3 lg:p-4 ${
-                            isFirstManufacturer ? 'sticky left-[140px] sm:left-[180px] lg:left-[200px] z-20 bg-background border-r' : ''
-                          }`}
+                          className="align-top p-2 sm:p-3 lg:p-4"
                         >
                           {model ? (
                             <div className="space-y-2 sm:space-y-3 py-1 sm:py-2">
@@ -444,8 +438,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
               })}
             </TableBody>
           </Table>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        </div>
       </div>
     </div>
   );
