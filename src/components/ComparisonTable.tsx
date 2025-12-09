@@ -187,56 +187,56 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
         </div>
 
         <div className="relative border rounded-md -mx-3 sm:mx-0 overflow-hidden">
-          <div className="h-[400px] sm:h-[500px] lg:h-[600px] overflow-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70">
-            <Table className="relative">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 left-0 z-50 bg-muted border-r border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Manufacturer</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[120px] sm:min-w-[150px] p-2 sm:p-3">Model</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Clamping Force</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[70px] sm:min-w-[90px] p-2 sm:p-3">Shot Size</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Screw Type</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Injection Unit</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Tie-bar</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[70px] sm:min-w-[80px] p-2 sm:p-3">Type</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">List Price</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Option</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Freight</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[130px] p-2 sm:p-3">Sales Price</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Customer</TableHead>
-                  <TableHead className="font-bold text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[90px] sm:min-w-[100px] p-2 sm:p-3">Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+          <div className="table-scroll-container h-[400px] sm:h-[500px] lg:h-[600px] overflow-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 left-0 z-50 bg-muted border-r border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Manufacturer</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[120px] sm:min-w-[150px] p-2 sm:p-3">Model</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Clamping Force</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[70px] sm:min-w-[90px] p-2 sm:p-3">Shot Size</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Screw Type</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Injection Unit</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Tie-bar</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[70px] sm:min-w-[80px] p-2 sm:p-3">Type</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">List Price</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Option</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[80px] sm:min-w-[100px] p-2 sm:p-3">Freight</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[130px] p-2 sm:p-3">Sales Price</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[100px] sm:min-w-[120px] p-2 sm:p-3">Customer</th>
+                  <th className="font-bold text-left text-xs sm:text-sm sticky top-0 z-40 bg-muted border-b min-w-[90px] sm:min-w-[100px] p-2 sm:p-3">Date</th>
+                </tr>
+              </thead>
+              <tbody>
                 {detailManufacturers.flatMap((manufacturer) => {
                   const models = selectedGroup[manufacturer] || [];
                   return models.map((model: any, idx: number) => (
-                    <TableRow key={`${manufacturer}-${idx}`} className="hover:bg-muted/30">
-                      <TableCell className="font-medium sticky left-0 z-30 bg-background border-r text-xs sm:text-sm p-2 sm:p-3">
+                    <tr key={`${manufacturer}-${idx}`} className="hover:bg-muted/30">
+                      <td className="font-medium sticky left-0 z-30 bg-background border-r text-xs sm:text-sm p-2 sm:p-3">
                         {manufacturer}
-                      </TableCell>
-                      <TableCell className="font-semibold text-primary text-xs sm:text-sm p-2 sm:p-3">{model.modelName}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.clampingForce} US Ton</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.shotSize ? `${model.shotSize} oz.` : "—"}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.screwType || "—"}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.injectionUnit || "—"}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.tieBarDistance ? `${model.tieBarDistance}"` : "—"}</TableCell>
-                      <TableCell className="p-2 sm:p-3">
+                      </td>
+                      <td className="font-semibold text-primary text-xs sm:text-sm p-2 sm:p-3">{model.modelName}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{model.clampingForce} US Ton</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{model.shotSize ? `${model.shotSize} oz.` : "—"}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{model.screwType || "—"}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{model.injectionUnit || "—"}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{model.tieBarDistance ? `${model.tieBarDistance}"` : "—"}</td>
+                      <td className="p-2 sm:p-3">
                         <Badge variant={model.salesType === "STOCK" ? "default" : "secondary"} className="text-[10px] sm:text-xs">
                           {model.salesType}
                         </Badge>
-                      </TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.listPrice)}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.optionPrice)}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.freight)}</TableCell>
-                      <TableCell className="font-bold text-primary text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.salesPrice)}</TableCell>
-                      <TableCell className="text-xs sm:text-sm p-2 sm:p-3">{model.customer || "—"}</TableCell>
-                      <TableCell className="text-xs sm:text-sm text-muted-foreground p-2 sm:p-3">{model.checkedTime}</TableCell>
-                    </TableRow>
+                      </td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.listPrice)}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.optionPrice)}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.freight)}</td>
+                      <td className="font-bold text-primary text-xs sm:text-sm p-2 sm:p-3">{formatCurrency(model.salesPrice)}</td>
+                      <td className="text-xs sm:text-sm p-2 sm:p-3">{model.customer || "—"}</td>
+                      <td className="text-xs sm:text-sm text-muted-foreground p-2 sm:p-3">{model.checkedTime}</td>
+                    </tr>
                   ));
                 })}
-              </TableBody>
-            </Table>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -286,24 +286,24 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
       </p>
 
       <div className="relative border rounded-md -mx-3 sm:mx-0 overflow-hidden" ref={scrollContainerRef}>
-        <div className="h-[400px] sm:h-[500px] lg:h-[600px] overflow-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-muted [&::-webkit-scrollbar-thumb]:bg-primary/50 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-primary/70">
-          <Table className="relative">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-bold text-xs sm:text-sm lg:text-base sticky top-0 left-0 z-50 bg-muted border-r border-b min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4">
+        <div className="table-scroll-container h-[400px] sm:h-[500px] lg:h-[600px] overflow-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr>
+                <th className="font-bold text-left text-xs sm:text-sm lg:text-base sticky top-0 left-0 z-50 bg-muted border-r border-b min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4">
                   Machine Specifications (Reference)
-                </TableHead>
+                </th>
                 {manufacturers.map((manufacturer) => (
-                  <TableHead 
+                  <th 
                     key={manufacturer} 
-                    className="font-bold text-xs sm:text-sm lg:text-base sticky top-0 z-40 bg-muted border-b min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4"
+                    className="font-bold text-left text-xs sm:text-sm lg:text-base sticky top-0 z-40 bg-muted border-b min-w-[180px] sm:min-w-[220px] lg:min-w-[250px] p-2 sm:p-3 lg:p-4"
                   >
                     {manufacturer}
-                  </TableHead>
+                  </th>
                 ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+              </tr>
+            </thead>
+            <tbody>
               {filteredData.map((group, groupIndex) => {
                 const referenceSpecs = group.referenceSpecs;
                 const maxModels = Math.max(
@@ -313,13 +313,13 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                 );
 
                 return Array.from({ length: Math.max(1, maxModels) }).map((_, rowIndex) => (
-                  <TableRow 
+                  <tr 
                     key={`${groupIndex}-${rowIndex}`} 
                     className="hover:bg-muted/30 cursor-pointer"
                     onClick={() => handleRowClick(group)}
                   >
                     {rowIndex === 0 && (
-                      <TableCell
+                      <td
                         rowSpan={maxModels}
                         className="align-top border-r font-medium bg-background sticky left-0 z-30 min-w-[140px] sm:min-w-[180px] lg:min-w-[200px] p-2 sm:p-3 lg:p-4"
                       >
@@ -340,7 +340,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                             <p className="text-xs sm:text-sm font-semibold">{referenceSpecs.screwType}</p>
                           </div>
                         </div>
-                      </TableCell>
+                      </td>
                     )}
                     
                     {manufacturers.map((manufacturer) => {
@@ -348,7 +348,7 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                       const model = models[rowIndex];
 
                       return (
-                        <TableCell 
+                        <td 
                           key={manufacturer} 
                           className="align-top p-2 sm:p-3 lg:p-4"
                         >
@@ -430,14 +430,14 @@ const ComparisonTable = ({ dataRepresentative, dataEntire, productType }: Compar
                           ) : (
                             <div className="py-1 sm:py-2 text-muted-foreground/50 text-center">—</div>
                           )}
-                        </TableCell>
+                        </td>
                       );
                     })}
-                  </TableRow>
+                  </tr>
                 ));
               })}
-            </TableBody>
-          </Table>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -115,3 +115,33 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles for better visibility */
+.table-scroll-container {
+  scrollbar-width: thick;
+  scrollbar-color: hsl(var(--primary) / 0.6) hsl(var(--muted));
+}
+
+.table-scroll-container::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 7px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.6);
+  border-radius: 7px;
+  border: 2px solid hsl(var(--muted));
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.8);
+}
+
+.table-scroll-container::-webkit-scrollbar-corner {
+  background: hsl(var(--muted));
+}
